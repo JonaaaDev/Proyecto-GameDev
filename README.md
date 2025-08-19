@@ -1,6 +1,31 @@
-# Proyecto Android con C++ y NDK
+# JonaaaDev: Proyecto Android con C++ y Ventana Flotante
 
-Este proyecto es una plantilla básica para el desarrollo de aplicaciones Android utilizando C++ a través del Android NDK.
+## Descripción del Proyecto
+
+Este proyecto es una aplicación de ejemplo para Android que demuestra la integración de código C++ a través del Android NDK y la implementación de una ventana flotante (`SYSTEM_ALERT_WINDOW`). Sirve como una plantilla básica para desarrolladores que buscan combinar el rendimiento de C++ con la flexibilidad de Java/Kotlin en aplicaciones Android, además de explorar funcionalidades avanzadas de UI como las ventanas superpuestas.
+
+## Funcionalidades Implementadas
+
+*   **Integración C++ con JNI**: Demuestra cómo llamar funciones C++ desde Java y viceversa utilizando la Interfaz Nativa de Java (JNI).
+*   **Ventana Flotante**: Implementa un servicio que crea y gestiona una ventana flotante persistente sobre otras aplicaciones, útil para herramientas de monitoreo, superposiciones de juego o utilidades de acceso rápido.
+
+## Requisitos del Sistema
+
+Para desarrollar y compilar este proyecto, necesitarás:
+
+*   **Sistema Operativo**: Windows, macOS o Linux.
+*   **Memoria RAM**: 8 GB o más (recomendado).
+*   **Espacio en Disco**: 10 GB de espacio libre para Android Studio, SDK, NDK y proyectos.
+
+## Requisitos Previos de Software
+
+Asegúrate de tener instalado lo siguiente:
+
+*   **Android Studio**: Versión 2022.2.1 (Flamingo) o superior. Incluye el SDK de Android y las herramientas de línea de comandos.
+*   **Java Development Kit (JDK)**: Versión 17 o superior. Android Studio generalmente instala su propia versión de OpenJDK.
+*   **Android NDK**: Se puede instalar a través del SDK Manager en Android Studio.
+*   **CMake**: También se puede instalar a través del SDK Manager en Android Studio.
+*   **Gradle**: Generalmente viene incluido con Android Studio.
 
 ## Estructura del Proyecto
 
@@ -16,12 +41,15 @@ Este proyecto es una plantilla básica para el desarrollo de aplicaciones Androi
 │   │   │   │   └── native-lib.cpp
 │   │   │   ├── java/
 │   │   │   │   └── com/
-│   │   │   │       └── example/
-│   │   │   │           └── myapplication/
-│   │   │   │               └── MainActivity.java
+│   │   │   │       └── jonaaadev/
+│   │   │   │           └── mo/
+│   │   │   │               ├── MainActivity.java
+│   │   │   │               └── service/
+│   │   │   │                   └── FloatingWindowService.java
 │   │   │   └── res/
 │   │   │       ├── layout/
-│   │   │       │   └── activity_main.xml
+│   │   │       │   ├── activity_main.xml
+│   │   │       │   └── layout_floating_window.xml
 │   │   │       └── values/
 │   │   │           └── strings.xml
 ├── build.gradle
@@ -29,49 +57,52 @@ Este proyecto es una plantilla básica para el desarrollo de aplicaciones Androi
 └── README.md
 ```
 
-## Requisitos Previos
+## Instalación y Configuración
 
-Antes de compilar y ejecutar este proyecto, asegúrate de tener instalado lo siguiente:
+1.  **Clonar el Repositorio**:
 
-*   **Android Studio**: Incluye el SDK de Android y las herramientas de línea de comandos.
-*   **Android NDK**: Se puede instalar a través del SDK Manager en Android Studio.
-*   **CMake**: También se puede instalar a través del SDK Manager en Android Studio.
-*   **Gradle**: Generalmente viene incluido con Android Studio.
+    ```bash
+    git clone https://github.com/JonaaaDev/Proyecto-GameDev.git
+    cd Proyecto-GameDev
+    ```
 
-## Compilación y Ejecución
+2.  **Abrir en Android Studio**:
 
-Para compilar y ejecutar este proyecto, sigue estos pasos:
+    Abre el proyecto clonado en Android Studio. Android Studio debería detectar automáticamente la configuración de Gradle y NDK.
 
-1.  **Abrir en Android Studio**: Abre el proyecto en Android Studio. Android Studio debería detectar automáticamente la configuración de Gradle y NDK.
+3.  **Sincronizar Proyecto**:
 
-2.  **Sincronizar Proyecto**: Una vez abierto, Android Studio te pedirá que sincronices el proyecto con los archivos de Gradle. Acepta para descargar las dependencias necesarias.
+    Una vez abierto, Android Studio te pedirá que sincronices el proyecto con los archivos de Gradle. Acepta para descargar todas las dependencias necesarias.
 
-3.  **Construir el Proyecto**: Ve a `Build > Make Project` en el menú de Android Studio, o usa el atajo de teclado `Ctrl + F9` (Windows/Linux) / `Cmd + F9` (macOS).
+4.  **Permiso de Ventana Flotante**:
 
-4.  **Ejecutar en un Dispositivo/Emulador**: Conecta un dispositivo Android a tu computadora o inicia un emulador de Android. Luego, haz clic en el botón `Run` (el ícono de triángulo verde) en la barra de herramientas de Android Studio, o usa el atajo de teclado `Shift + F10` (Windows/Linux) / `Ctrl + R` (macOS).
+    Para que la ventana flotante funcione correctamente en Android 6.0 (API 23) y versiones posteriores, la aplicación requiere el permiso `SYSTEM_ALERT_WINDOW`. Este permiso debe ser concedido manualmente por el usuario en la configuración del dispositivo. La aplicación intentará solicitar este permiso al iniciar `MainActivity`.
 
-    La aplicación se instalará y ejecutará en el dispositivo/emulador. Deberías ver un mensaje que dice "Hola Mundo desde C++!" en la pantalla.
+    Asegúrate de que la aplicación tenga este permiso habilitado en `Configuración > Aplicaciones > [Tu Aplicación] > Permisos especiales > Mostrar sobre otras aplicaciones`.
 
-## Código de Ejemplo
+## Guía de Uso
 
-El proyecto incluye un ejemplo simple de "Hola Mundo" implementado en C++ y expuesto a Java a través de JNI:
+1.  **Compilar y Ejecutar**:
 
-*   `app/src/main/cpp/native-lib.cpp`: Contiene la función `stringFromJNI` que devuelve la cadena "Hola Mundo desde C++!".
-*   `app/src/main/java/com/example/myapplication/MainActivity.java`: Carga la librería nativa y llama a `stringFromJNI` para mostrar el texto en un `TextView`.
+    *   Conecta un dispositivo Android a tu computadora o inicia un emulador de Android.
+    *   Haz clic en el botón `Run` (el ícono de triángulo verde) en la barra de herramientas de Android Studio, o usa el atajo de teclado `Shift + F10` (Windows/Linux) / `Ctrl + R` (macOS).
 
-## Compatibilidad con Android NDK
+2.  **Interacción con la Aplicación**:
 
-Este proyecto está configurado para usar el Android NDK. La configuración se encuentra en `app/build.gradle` y `app/src/main/cpp/CMakeLists.txt`.
+    *   La `MainActivity` mostrará un mensaje de "Hola Mundo desde C++!" demostrando la integración con NDK.
+    *   Desde la `MainActivity`, podrás iniciar el `FloatingWindowService` que creará la ventana flotante.
+    *   La ventana flotante (`layout_floating_window.xml`) es interactiva y se puede mover por la pantalla.
 
-*   `app/build.gradle`: Define la ruta a `CMakeLists.txt` y la versión de CMake.
-*   `app/src/main/cpp/CMakeLists.txt`: Especifica cómo se construye la librería nativa (`native-lib`) a partir de `native-lib.cpp` y cómo se vincula con la librería `log` del NDK.
+## Contribución
 
-## Expansión Futura
+Las contribuciones son bienvenidas. Si deseas contribuir, por favor, sigue estos pasos:
 
-Para expandir este proyecto:
+1.  Haz un fork del repositorio.
+2.  Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3.  Realiza tus cambios y commitea (`git commit -am 'feat: Añadir nueva funcionalidad'`).
+4.  Sube tus cambios a tu fork (`git push origin feature/nueva-funcionalidad`).
+5.  Abre un Pull Request detallando tus cambios.
 
-*   **Añadir más código C++**: Crea nuevos archivos `.cpp` en `app/src/main/cpp` y añádelos a `CMakeLists.txt`.
-*   **Exponer funciones C++ a Java**: Define nuevas funciones `JNIEXPORT` en tus archivos C++ y declara sus métodos `native` correspondientes en tus clases Java.
-*   **Añadir más módulos**: Si tu aplicación crece, puedes añadir más módulos de Android al proyecto y configurarlos en `settings.gradle`.
+## Licencia
 
-Este proyecto sigue las mejores prácticas para el desarrollo de Android con C++ al utilizar Gradle para la gestión de la compilación y CMake para la configuración del NDK, lo que facilita la integración y el mantenimiento del código nativo.
+Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
